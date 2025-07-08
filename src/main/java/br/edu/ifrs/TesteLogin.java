@@ -3,10 +3,9 @@ package br.edu.ifrs;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Objects;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import org.openqa.selenium.By;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -38,8 +37,12 @@ public class TesteLogin {
 	@Parameters
 	public static Collection<Object[]> getCollection() {
 		return Arrays.asList(new Object[][] {
-			{"tiago@gmail.com", "senha_incorreta", page.getPathMensagemSenhaIncorreta(), page.getMsgSenhaIncorreta()},
-			{"tiago@gmail.com", "123abc", page.getPathMensagemSenhaIncorreta(), page.getMsgSenhaIncorreta()}
+			{"andrius.zimmer@gmail.com", "pinas", page.getPathNotificacaoHome(), page.getMsgNotificacaoHome()},
+			{"andrius.zimmer@gmail.com", "senha_incorreta", page.getPathMensagemSenhaIncorreta(), page.getMsgSenhaIncorreta()},
+			{"email_incorreto@gmail.com", "pinas", page.getPathMensagemSenhaIncorreta(), page.getMsgSenhaIncorreta()},
+			{"", "pinas", page.getPathMensagemCampoVazio(), page.getMsgCampoVazio()},
+			{"andrius.zimmer@gmail.com", "", page.getPathMensagemCampoVazio(), page.getMsgCampoVazio()},
+			{"", "", page.getPathMensagemCampoVazio(), page.getMsgCampoVazio()}
 		});
 	}
 	
@@ -49,5 +52,17 @@ public class TesteLogin {
 		page.setSenha(senha);
 		page.logar();	
 		Assert.assertEquals(resposta, dsl.obterTexto(By.xpath(localResposta)));
+	}
+
+	@After
+	public void finalizar() {
+		if (Objects.equals(resposta, page.getMsgNotificacaoHome())){
+			page.logout();
+		}
+	}
+
+	@AfterClass
+	public static void encerrar() {
+		DriverFactory.killDriver();
 	}
 }

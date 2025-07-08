@@ -18,6 +18,14 @@ public class DSL {
 		WebDriverWait wait = new WebDriverWait(DriverFactory.getDriver(), DriverProperty.WAIT_TIME);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(by));
 	}
+
+	public void waitExplicito() {
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	// TextFields e TextAreas
 	public void escrever(By by, String texto){
@@ -25,12 +33,23 @@ public class DSL {
 		DriverFactory.getDriver().findElement(by).clear();
 		DriverFactory.getDriver().findElement(by).sendKeys(texto);
 	}
+	public void escreverXpath(String xpath, String texto){
+		wait(By.xpath(xpath));
+		DriverFactory.getDriver().findElement(By.xpath(xpath)).clear();
+		DriverFactory.getDriver().findElement(By.xpath(xpath)).sendKeys(texto);
+	}
 	public void escrever(String idCampo, String texto){
 		escrever(By.id(idCampo), texto);
 	}
 	public String obterValorCampo(String idCampo) {
 		wait(By.id(idCampo));
 		return DriverFactory.getDriver().findElement(By.id(idCampo)).getAttribute("value");
+	}
+
+	//URL atual
+
+	public String obterUrl() {
+		return DriverFactory.getDriver().getCurrentUrl();
 	}
 	
 	// Radio buttons e Checkboxes 

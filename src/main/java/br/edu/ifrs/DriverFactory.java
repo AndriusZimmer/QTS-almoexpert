@@ -13,11 +13,12 @@ public class DriverFactory {
 	public static WebDriver getDriver() {		
 		if (driver == null) {
 //			Windows
-//			String GECKO_DRIVER_PATH = System.getProperty("user.dir") + "/src/main/resources/webdriver/geckodriver.exe";
-//			System.setProperty("webdriver.gecko.driver", GECKO_DRIVER_PATH);
+			String GECKO_DRIVER_PATH = System.getProperty("user.dir") + "/src/main/resources/webdriver/geckodriver.exe";
+			System.setProperty("webdriver.gecko.driver", GECKO_DRIVER_PATH);
 
 //			Linux
-			System.setProperty("webdriver.gecko.driver", "/usr/bin/geckodriver");
+
+//			System.setProperty("webdriver.gecko.driver", "/usr/bin/geckodriver");
 
 			driver = new FirefoxDriver();
 		}
@@ -26,7 +27,7 @@ public class DriverFactory {
 	
 	public static void killDriver() {
 		if (driver != null) {
-			driver.close();
+			driver.quit();
 			driver = null;
 		}
 	}
